@@ -1,18 +1,16 @@
-package main.java.fnfal113.bicolregioninfomanagementsystem;
+package main.java.fnfal113.bicol_region_info_management_system;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
-import main.java.fnfal113.bicolregioninfomanagementsystem.handlers.ButtonHandler;
-import main.java.fnfal113.bicolregioninfomanagementsystem.utils.ButtonFactory;
+import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
+import main.java.fnfal113.bicol_region_info_management_system.utils.ButtonFactory;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
