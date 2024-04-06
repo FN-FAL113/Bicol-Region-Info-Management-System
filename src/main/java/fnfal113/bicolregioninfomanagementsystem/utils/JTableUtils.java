@@ -1,10 +1,10 @@
-package main.java.me.simpleapp.utils;
+package main.java.fnfal113.bicolregioninfomanagementsystem.utils;
 
 import java.sql.ResultSet;
 
 import javax.swing.JTable;
 
-import main.java.me.simpleapp.interfaces.Repository;
+import main.java.fnfal113.bicolregioninfomanagementsystem.interfaces.Repository;
 
 import java.sql.ResultSetMetaData;
 

@@ -1,4 +1,4 @@
-package main.java.me.simpleapp.db;
+package main.java.fnfal113.bicolregioninfomanagementsystem.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import main.java.me.simpleapp.interfaces.Repository;
+import main.java.fnfal113.bicolregioninfomanagementsystem.interfaces.Repository;
 
 public class SQLRepository implements Repository {
 

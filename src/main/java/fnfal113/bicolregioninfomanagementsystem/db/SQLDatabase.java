@@ -1,10 +1,10 @@
-package main.java.me.simpleapp.db;
+package main.java.fnfal113.bicolregioninfomanagementsystem.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import main.java.me.simpleapp.interfaces.Database;
+import main.java.fnfal113.bicolregioninfomanagementsystem.interfaces.Database;
 
 public class SQLDatabase implements Database {
 

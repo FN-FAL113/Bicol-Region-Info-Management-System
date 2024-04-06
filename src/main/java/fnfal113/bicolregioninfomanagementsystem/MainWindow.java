@@ -1,4 +1,4 @@
-package main.java.me.simpleapp;
+package main.java.fnfal113.bicolregioninfomanagementsystem;
 
 import java.awt.BorderLayout;
 

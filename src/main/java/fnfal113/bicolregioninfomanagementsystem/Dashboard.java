@@ -1,4 +1,4 @@
-package main.java.me.simpleapp;
+package main.java.fnfal113.bicolregioninfomanagementsystem;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,8 +16,8 @@ import javax.swing.event.TableModelListener;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-import main.java.me.simpleapp.db.SQLRepository;
-import main.java.me.simpleapp.utils.JTableUtils;
+import main.java.fnfal113.bicolregioninfomanagementsystem.db.SQLRepository;
+import main.java.fnfal113.bicolregioninfomanagementsystem.utils.JTableUtils;
 
 import javax.swing.BorderFactory;
 

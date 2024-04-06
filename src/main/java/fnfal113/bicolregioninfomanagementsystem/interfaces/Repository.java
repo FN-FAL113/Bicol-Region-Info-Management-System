@@ -1,4 +1,4 @@
-package main.java.me.simpleapp.interfaces;
+package main.java.fnfal113.bicolregioninfomanagementsystem.interfaces;
 
 import java.sql.ResultSet;
 
