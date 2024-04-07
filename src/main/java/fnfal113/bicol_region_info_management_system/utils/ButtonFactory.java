@@ -1,4 +1,4 @@
-package main.java.fnfal113.bicolregioninfomanagementsystem.utils;
+package main.java.fnfal113.bicol_region_info_management_system.utils;
 
 import java.awt.Color;
 import java.awt.Font;

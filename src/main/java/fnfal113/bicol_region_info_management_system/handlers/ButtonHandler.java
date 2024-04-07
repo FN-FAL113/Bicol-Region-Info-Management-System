@@ -1,4 +1,4 @@
-package main.java.fnfal113.bicolregioninfomanagementsystem.handlers;
+package main.java.fnfal113.bicol_region_info_management_system.handlers;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

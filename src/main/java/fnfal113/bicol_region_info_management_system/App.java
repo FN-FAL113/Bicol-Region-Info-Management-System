@@ -1,4 +1,4 @@
-package main.java.fnfal113.bicolregioninfomanagementsystem;
+package main.java.fnfal113.bicol_region_info_management_system;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -23,7 +23,6 @@ public class App {
 
                 window.show();
             }
-            
         });
     }
 

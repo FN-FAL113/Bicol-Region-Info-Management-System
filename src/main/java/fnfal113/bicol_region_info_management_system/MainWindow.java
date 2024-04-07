@@ -1,24 +1,23 @@
-package main.java.fnfal113.bicolregioninfomanagementsystem;
+package main.java.fnfal113.bicol_region_info_management_system;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 public class MainWindow {
 
-    private final JFrame window;
-    private final SideBar sideBar;
-    private final Dashboard dashboard;
+    private JFrame window;
+    private SideBar sideBar;
+    private Dashboard dashboard;
 
     public MainWindow() {
-        this.window = new JFrame();
-        this.sideBar = new SideBar(getWindow());
-        this.dashboard = new Dashboard(getWindow());
-        
         init();
     }
 
     public void init() {
+        this.window = new JFrame();
+
         this.window.setTitle("Bicol Region Info Management System");
         
         this.window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -26,14 +25,21 @@ public class MainWindow {
         this.window.setSize(800, 600);
         
         this.window.setLocationRelativeTo(null);
+
+        this.sideBar = new SideBar(getWindow());
         
-        getWindow().add(getSideBar().getPanel(), BorderLayout.WEST);       
+        this.dashboard = new Dashboard(getWindow());
         
-        getWindow().add(getDashboard().getPanel(), BorderLayout.CENTER);       
+        getWindow().add(getSideBar().getPanel(), BorderLayout.WEST);   
+        
+        JScrollPane scrollableDashboard = new JScrollPane(getDashboard().getPanel());
+
+        scrollableDashboard.getVerticalScrollBar().setUnitIncrement(16);
+        
+        getWindow().add(scrollableDashboard, BorderLayout.CENTER);       
     }
 
     public void show() {
-        // this.window.pack(); // this will auto adjust contents to fit
         this.window.setVisible(true);
     }
 

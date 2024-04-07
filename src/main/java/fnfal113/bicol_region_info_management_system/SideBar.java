@@ -33,13 +33,12 @@ public class SideBar {
         // side bar panel
         this.panel = new JPanel(new BorderLayout());
 
-        this.panel.setPreferredSize(new Dimension(150, this.window.getHeight()));
-        this.panel.setBackground(Color.GRAY);
+        this.panel.setPreferredSize(new Dimension(150, getWindow().getHeight()));
 
         // buttons panel
-        JPanel btnPanel = new JPanel(new GridBagLayout());
+        JPanel buttonsPanel = new JPanel(new GridBagLayout());
 
-        btnPanel.setBackground(Color.GRAY);   
+        buttonsPanel.setBackground(Color.decode("#BAA1D5")); 
 
         MatteBorder matteBorder = new MatteBorder(0, 2, 0, 0, Color.black);
         Border emptyBorder = BorderFactory.createEmptyBorder(5,5,5,5);
@@ -61,18 +60,17 @@ public class SideBar {
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.insets = new Insets(10, 0, 10, 0);
-
         gbc.anchor = GridBagConstraints.WEST;
 
-        btnPanel.add(dashBoardBtn, gbc);
+        buttonsPanel.add(dashBoardBtn, gbc);
         
         gbc.gridy = 1;
-        btnPanel.add(projectsBtn, gbc);
+        buttonsPanel.add(projectsBtn, gbc);
         
         gbc.gridy = 2;
-        btnPanel.add(aboutBtn, gbc);
+        buttonsPanel.add(aboutBtn, gbc);
 
-        this.panel.add(btnPanel, BorderLayout.CENTER);
+        this.panel.add(buttonsPanel, BorderLayout.CENTER);
     }
 
     private ButtonHandler createButtonClickHandler(JButton button, String panelName) {
@@ -90,6 +88,10 @@ public class SideBar {
                 }
             }
         };
+    }
+
+    public JFrame getWindow() {
+        return window;
     }
 
     public JPanel getPanel() {

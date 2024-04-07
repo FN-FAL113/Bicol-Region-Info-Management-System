@@ -1,4 +1,4 @@
-package main.java.fnfal113.bicolregioninfomanagementsystem.db;
+package main.java.fnfal113.bicol_region_info_management_system.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,18 +6,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import main.java.fnfal113.bicolregioninfomanagementsystem.interfaces.Repository;
+import javax.swing.JOptionPane;
+
+import main.java.fnfal113.bicol_region_info_management_system.interfaces.Repository;
 
 public class SQLRepository implements Repository {
+
+    private Connection connection;
 
     @Override
     public ResultSet getAll(String tableName) {
         try {
-            Connection con = new SQLDatabase().getConnection();
+            this.connection = new SQLDatabase().getConnection();
 
-            Statement stmt = con.createStatement();
+            Statement stmt = connection.createStatement();
 
-            return stmt.executeQuery("SELECT * FROM " + tableName);
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM " + tableName);
+
+            return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -28,11 +34,15 @@ public class SQLRepository implements Repository {
     @Override
     public ResultSet get(String query) {
         try {
-            Connection con = new SQLDatabase().getConnection();
+            this.connection = new SQLDatabase().getConnection();
 
-            Statement stmt = con.createStatement();
+            Statement stmt = connection.createStatement();
 
-            return stmt.executeQuery(query);
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            this.connection.close();
+
+            return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -43,15 +53,17 @@ public class SQLRepository implements Repository {
     @Override
     public int getRowCount(String query) {
         try {
-            Connection con = new SQLDatabase().getConnection();
+            this.connection = new SQLDatabase().getConnection();
 
-            Statement stmt = con.createStatement();
+            Statement stmt = connection.createStatement();
 
             ResultSet resultSet = stmt.executeQuery(query);
 
             resultSet.next();
 
             int rowCount = resultSet.getInt(1);
+
+            this.connection.close();
 
             return rowCount;
         } catch (SQLException e) {
@@ -64,25 +76,33 @@ public class SQLRepository implements Repository {
     @Override
     public void update(String query, Object[] queryParameters) {
         try {
-            Connection con = new SQLDatabase().getConnection();
+            this.connection = new SQLDatabase().getConnection();
 
-            PreparedStatement stmt = con.prepareStatement(query);
+            PreparedStatement stmt = this.connection.prepareStatement(query);
 
             for (int i = 0; i < queryParameters.length; i++) {
                 stmt.setObject(i + 1, queryParameters[i]);                
             }
 
+            System.out.println(queryParameters[0].toString());
+
             stmt.executeUpdate();
+
+            this.connection.close();
+   
+            JOptionPane.showMessageDialog(null, "Successfully updated column value!", "Info", 1);
         } catch (SQLException e) {
             e.printStackTrace();
+
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Info", 0);
         }
     }
 
-
     @Override
     public void delete(String query) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
+    public Connection getConnection() {
+        return this.connection;
+    }
 }
