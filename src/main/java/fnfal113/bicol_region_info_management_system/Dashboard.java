@@ -137,7 +137,6 @@ public class Dashboard {
                     for (int j = 0; j < tables.size(); j++) {
                         if(getTables().get(j).equals(table)) continue;
 
-                        System.out.println(j);
                         getTables().get(j).setModel(JTableUtils.generateTableModel(tableNames[j], new SQLRepository()));
                     }
                 }

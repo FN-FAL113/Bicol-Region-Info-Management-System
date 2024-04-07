@@ -84,8 +84,6 @@ public class SQLRepository implements Repository {
                 stmt.setObject(i + 1, queryParameters[i]);                
             }
 
-            System.out.println(queryParameters[0].toString());
-
             stmt.executeUpdate();
 
             this.connection.close();
