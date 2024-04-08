@@ -47,9 +47,9 @@ public class SideBar {
         dashBoardBtn.setBackground(null);
         dashBoardBtn.setBorder(BorderFactory.createCompoundBorder(matteBorder, emptyBorder));
 
-        JButton projectsBtn = ButtonFactory.createButton("Manage Data");
-        projectsBtn.setBackground(null);
-        projectsBtn.setBorder(BorderFactory.createCompoundBorder(matteBorder, emptyBorder));
+        JButton manageDataBtn = ButtonFactory.createButton("Manage Data");
+        manageDataBtn.setBackground(null);
+        manageDataBtn.setBorder(BorderFactory.createCompoundBorder(matteBorder, emptyBorder));
         
         JButton aboutBtn = ButtonFactory.createButton("About");
         aboutBtn.setBackground(null);
@@ -65,7 +65,7 @@ public class SideBar {
         buttonsPanel.add(dashBoardBtn, gbc);
         
         gbc.gridy = 1;
-        buttonsPanel.add(projectsBtn, gbc);
+        buttonsPanel.add(manageDataBtn, gbc);
         
         gbc.gridy = 2;
         buttonsPanel.add(aboutBtn, gbc);

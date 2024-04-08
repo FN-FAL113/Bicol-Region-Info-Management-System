@@ -2,17 +2,23 @@ package main.java.fnfal113.bicol_region_info_management_system;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -26,11 +32,13 @@ import javax.swing.table.TableRowSorter;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import main.java.fnfal113.bicol_region_info_management_system.db.SQLRepository;
+import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
 import main.java.fnfal113.bicol_region_info_management_system.handlers.TextFieldHandler;
 import main.java.fnfal113.bicol_region_info_management_system.utils.JTableUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -72,14 +80,14 @@ public class Dashboard {
         return panel;
     }
 
-    public JPanel createWidget(String tableName, String header, Object obj) {
+    public JPanel createWidget(String tableName, String header, Object body) {
         JPanel widgetPanel = new JPanel();
 
         widgetPanel.putClientProperty(FlatClientProperties.STYLE, "arc: 10");
 
         JLabel label = new JLabel();
 
-        label.setText("<html>" + header + "<br/>" + obj.toString() + "</html>");
+        label.setText("<html>" + header + "<br/>" + body.toString() + "</html>");
         label.setFont(new Font("", Font.BOLD, 14));
         
         ImageIcon icon = new ImageIcon(
@@ -107,9 +115,9 @@ public class Dashboard {
         for (int i = 0; i < this.tableNames.length; i++) {
             JTable table = JTableUtils.createTableFromTableName(tableNames[i], new SQLRepository());
 
-            table.getTableHeader().setFont(new Font("", Font.BOLD, 12));
+            String tableName = table.getClientProperty("name").toString().toLowerCase();
 
-            final int index = i;
+            table.getTableHeader().setFont(new Font("", Font.BOLD, 12));
 
             table.addFocusListener(new FocusListener() {
                 @Override
@@ -128,16 +136,16 @@ public class Dashboard {
 
                     Object[] tableValuesArr = { 
                         table.getValueAt(e.getFirstRow(), e.getColumn()), // new value
-                        table.getClientProperty("currentRowId")
+                        table.getClientProperty("currentRowId") // original row id
                     };
 
-                    repository.update("UPDATE " + tableNames[index].toLowerCase() + 
+                    repository.update("UPDATE " + tableName + 
                         " SET " + table.getColumnName(e.getColumn()) + " = ? WHERE id = ?;", tableValuesArr);
 
                     for (int j = 0; j < tables.size(); j++) {
                         if(getTables().get(j).equals(table)) continue;
 
-                        getTables().get(j).setModel(JTableUtils.generateTableModel(tableNames[j], new SQLRepository()));
+                        getTables().get(j).setModel(JTableUtils.generateTableModel(tableName, new SQLRepository()));
                     }
                 }
             });
@@ -155,28 +163,42 @@ public class Dashboard {
 
             tablesPanel.add(jsp, gbc);
 
-            // filter panel constraints
+            // table options panel constraints
             gbc.fill = GridBagConstraints.NONE;
             gbc.anchor = GridBagConstraints.WEST;
          
-            tablesPanel.add(createTableFilters(tableNames[i], table), gbc);
+            tablesPanel.add(createTableOptions(table), gbc);
         }
         
         return tablesPanel;
     }
 
-    public JPanel createTableFilters(String tableName, JTable table) {
+    public JPanel createTableOptions(JTable table) {
+        JPanel optionsPanel = new JPanel();
+           
+        // search field
+        optionsPanel.add(createTableOptionFilter(table, -1));
+
+        // barangay locator
+        if(table.getClientProperty("name") != "Provinces") optionsPanel.add(createTableOptionBarangayLocator(table));
+
+        return optionsPanel;
+    }
+
+    public JPanel createTableOptionFilter(JTable table, int columnIndex) {
+        JPanel filterPanel = new JPanel();
+
         TableRowSorter<TableModel> tableRowSorter = new TableRowSorter<>(table.getModel());
 
         table.setRowSorter(tableRowSorter);
 
-        JPanel filterPanel = new JPanel();
-            
-        JLabel filterLabel = new JLabel(tableName + " search: ");
+        JLabel filterLabel = new JLabel(table.getClientProperty("name") + " search: ");
 
-        filterLabel.setFont(new Font("", Font.BOLD, 14));
+        filterLabel.setFont(new Font("", Font.BOLD, 12));
         
         JTextField filterField = new JTextField();
+
+        filterField.setPreferredSize(new Dimension(150, 30));
 
         filterField.getDocument().addDocumentListener(new TextFieldHandler() {
             @Override
@@ -185,19 +207,59 @@ public class Dashboard {
 
                 if (text.length() > 0) {
                     // case insensitive
-                    tableRowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                    tableRowSorter.setRowFilter(columnIndex >= 0 ? RowFilter.regexFilter("(?i)" + text, columnIndex) : RowFilter.regexFilter("(?i)" + text));
                 } else {
                     tableRowSorter.setRowFilter(null);
                 }
             }
         });
 
-        filterField.setPreferredSize(new Dimension(150, 28));
-
         filterPanel.add(filterLabel);
         filterPanel.add(filterField);
 
         return filterPanel;
+    }
+
+    public JButton createTableOptionBarangayLocator(JTable table) {
+        JButton locateBtn = new JButton();
+
+        locateBtn.putClientProperty(FlatClientProperties.STYLE, "arc: 10");
+
+        locateBtn.setText("Locate Selected Row");
+
+        locateBtn.setFont(new Font("", Font.BOLD, 12));
+
+        locateBtn.setMargin(new Insets(6, 6, 6, 6));
+
+        locateBtn.addMouseListener(new ButtonHandler() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(table.getSelectedRow() < 0) {
+                    JOptionPane.showMessageDialog(locateBtn, "Please select a row", "Info", 0);
+
+                    return;
+                }
+
+                final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+
+                if(desktop != null) {
+                    try {
+                        String latitude = table.getValueAt(table.getSelectedRow(), 3).toString();
+                        String longitude = table.getValueAt(table.getSelectedRow(), 4).toString();
+
+                        desktop.browse(URI.create("https://coordinates-converter.com/en/decimal/" + latitude + "," + longitude + "?karte=OpenStreetMap&zoom=16"));
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+
+                        JOptionPane.showMessageDialog(locateBtn, ex.getMessage(), "Info", 0);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(locateBtn, "No browsers detected! Please install a web browser to use this functionality", "Info", 0);
+                }
+            }
+        });
+
+        return locateBtn;
     }
 
     public JFrame getWindow() {

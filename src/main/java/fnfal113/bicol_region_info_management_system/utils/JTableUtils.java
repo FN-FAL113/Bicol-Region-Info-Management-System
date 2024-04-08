@@ -16,6 +16,8 @@ public class JTableUtils {
         try {
             JTable table = new JTable(generateTableModel(tableName, repository));
 
+            table.putClientProperty("name", tableName);
+
             return table;
         } catch (Exception e) {
             e.printStackTrace();
@@ -26,7 +28,7 @@ public class JTableUtils {
 
     public static DefaultTableModel generateTableModel(String tableName, Repository repository) {
         try {
-            ResultSet resultSet = repository.getAll(tableName.toLowerCase());
+            ResultSet resultSet = repository.getAll(tableName);
             ResultSetMetaData metaData = resultSet.getMetaData();
 
             String[] columns = new String[metaData.getColumnCount()];
