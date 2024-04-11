@@ -46,8 +46,11 @@ import java.util.ArrayList;
 public class Dashboard {
     
     private JFrame window;
+    
     private JPanel panel;
+
     private List<JTable> tables = new ArrayList<JTable>();
+
     private String[] tableNames = {"Provinces", "Municipalities", "Barangays"};
 
     public Dashboard(JFrame window) {
@@ -69,39 +72,40 @@ public class Dashboard {
 
         layout.setHgap(8);
 
-        JPanel panel = new JPanel(layout);
+        JPanel widgetsPanel = new JPanel(layout);
 
-        panel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+        widgetsPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
 
         for (int i = 0; i < this.tables.size(); i++) {
-            panel.add(createWidget(tableNames[i], tableNames[i] + " ", this.tables.get(i).getRowCount()));
+            widgetsPanel.add(createWidget(tableNames[i], tableNames[i] + " ", this.tables.get(i).getRowCount()));
         }
 
-        return panel;
+        return widgetsPanel;
     }
 
     public JPanel createWidget(String tableName, String header, Object body) {
         JPanel widgetPanel = new JPanel();
 
+        widgetPanel.setBackground(Color.decode("#8596F4"));
+
+        widgetPanel.setPreferredSize(new Dimension(0, 64));
+
         widgetPanel.putClientProperty(FlatClientProperties.STYLE, "arc: 10");
 
-        JLabel label = new JLabel();
-
-        label.setText("<html>" + header + "<br/>" + body.toString() + "</html>");
-        label.setFont(new Font("", Font.BOLD, 14));
+        JLabel label = new JLabel("<html>" + header + "<br/>" + body.toString() + "</html>");
+        
+        label.setFont(new Font("Inter Bold", Font.BOLD, 14));
         
         ImageIcon icon = new ImageIcon(
-            new ImageIcon(App.class.getResource("./assets/" + tableName + ".png")).getImage().getScaledInstance(36, -1, Image.SCALE_SMOOTH)
+            new ImageIcon(App.class.getResource("assets/" + tableName + ".png")).getImage().getScaledInstance(32, -1, Image.SCALE_SMOOTH)
         );
 
         label.setIcon(icon);
 
-        label.setIconTextGap(8);
+        label.setIconTextGap(6);
 
-        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        label.setBorder(BorderFactory.createEmptyBorder(8, 16, 8,16));
         
-        widgetPanel.setBackground(Color.decode("#64BAAA"));
-    
         widgetPanel.add(label);
         
         return widgetPanel;
@@ -117,7 +121,7 @@ public class Dashboard {
 
             String tableName = table.getClientProperty("name").toString().toLowerCase();
 
-            table.getTableHeader().setFont(new Font("", Font.BOLD, 12));
+            table.getTableHeader().setFont(new Font("Inter Regular", Font.BOLD, 12));
 
             table.addFocusListener(new FocusListener() {
                 @Override
@@ -134,13 +138,13 @@ public class Dashboard {
                 public void tableChanged(TableModelEvent e) {
                     SQLRepository repository = new SQLRepository();
 
-                    Object[] tableValuesArr = { 
-                        table.getValueAt(e.getFirstRow(), e.getColumn()), // new value
-                        table.getClientProperty("currentRowId") // original row id
-                    };
+                    ArrayList<Object> queryParameters = new ArrayList<>();
+                    
+                    queryParameters.add(table.getValueAt(e.getFirstRow(), e.getColumn())); // new value
+                    queryParameters.add(table.getClientProperty("currentRowId")); // original row id)
 
-                    repository.update("UPDATE " + tableName + 
-                        " SET " + table.getColumnName(e.getColumn()) + " = ? WHERE id = ?;", tableValuesArr);
+                    repository.addOrUpdate("UPDATE " + tableName + 
+                        " SET " + table.getColumnName(e.getColumn()) + " = ? WHERE id = ?;", queryParameters);
 
                     for (int j = 0; j < tables.size(); j++) {
                         if(getTables().get(j).equals(table)) continue;
@@ -194,7 +198,7 @@ public class Dashboard {
 
         JLabel filterLabel = new JLabel(table.getClientProperty("name") + " search: ");
 
-        filterLabel.setFont(new Font("", Font.BOLD, 12));
+        filterLabel.setFont(new Font("Inter Regular", Font.BOLD, 12));
         
         JTextField filterField = new JTextField();
 
@@ -227,7 +231,7 @@ public class Dashboard {
 
         locateBtn.setText("Locate Selected Row");
 
-        locateBtn.setFont(new Font("", Font.BOLD, 12));
+        locateBtn.setFont(new Font("Inter Regular", Font.BOLD, 12));
 
         locateBtn.setMargin(new Insets(6, 6, 6, 6));
 

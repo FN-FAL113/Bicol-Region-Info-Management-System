@@ -1,6 +1,7 @@
 package main.java.fnfal113.bicol_region_info_management_system;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 
@@ -33,58 +35,77 @@ public class SideBar {
         // side bar panel
         this.panel = new JPanel(new BorderLayout());
 
-        this.panel.setPreferredSize(new Dimension(150, getWindow().getHeight()));
+        this.panel.setPreferredSize(new Dimension(200, getWindow().getHeight()));
+
+        this.panel.setBackground(Color.decode("#31337E")); 
+
+        this.panel.setBorder(BorderFactory.createEmptyBorder(16, 0, 16, 0));
 
         // buttons panel
         JPanel buttonsPanel = new JPanel(new GridBagLayout());
 
-        buttonsPanel.setBackground(Color.decode("#BAA1D5")); 
+        buttonsPanel.setBackground(null);
 
-        MatteBorder matteBorder = new MatteBorder(0, 2, 0, 0, Color.black);
-        Border emptyBorder = BorderFactory.createEmptyBorder(5,5,5,5);
-
-        JButton dashBoardBtn = ButtonFactory.createButton("Dashboard");
+        JButton dashBoardBtn = ButtonFactory.createButton("Dashboard", Color.WHITE, null);
         dashBoardBtn.setBackground(null);
-        dashBoardBtn.setBorder(BorderFactory.createCompoundBorder(matteBorder, emptyBorder));
-
-        JButton manageDataBtn = ButtonFactory.createButton("Manage Data");
-        manageDataBtn.setBackground(null);
-        manageDataBtn.setBorder(BorderFactory.createCompoundBorder(matteBorder, emptyBorder));
-        
-        JButton aboutBtn = ButtonFactory.createButton("About");
-        aboutBtn.setBackground(null);
-        aboutBtn.setBorder(BorderFactory.createCompoundBorder(matteBorder, emptyBorder));
+        dashBoardBtn.setBorder(null);
 
         dashBoardBtn.addMouseListener(createButtonClickHandler(dashBoardBtn, "dashboard"));
 
+        attachButtonIcon(dashBoardBtn, "dashboard");
+
+        JButton manageDataBtn = ButtonFactory.createButton("Manage Data", Color.WHITE, null);
+        manageDataBtn.setBackground(null);
+        manageDataBtn.setBorder(null);
+
+        attachButtonIcon(manageDataBtn, "manage-data");
+        
+        JButton aboutBtn = ButtonFactory.createButton("About", Color.WHITE, null);
+        aboutBtn.setBackground(null);
+        aboutBtn.setBorder(null);
+
+        attachButtonIcon(aboutBtn, "about");
+
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.insets = new Insets(6, 0, 0, 0);
         gbc.anchor = GridBagConstraints.WEST;
 
         buttonsPanel.add(dashBoardBtn, gbc);
         
+        gbc.insets = new Insets(24, 0, 0, 0);
         gbc.gridy = 1;
         buttonsPanel.add(manageDataBtn, gbc);
-        
+
+        gbc.insets = new Insets(24, 0, 0, 0);
         gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+
         buttonsPanel.add(aboutBtn, gbc);
 
-        this.panel.add(buttonsPanel, BorderLayout.CENTER);
+        this.panel.add(buttonsPanel, BorderLayout.NORTH);
+    }
+
+    private void attachButtonIcon(JButton button, String fileName) {
+        ImageIcon icon = new ImageIcon(
+            new ImageIcon(App.class.getResource("assets/" + fileName + ".png")).getImage().getScaledInstance(28, -1, Image.SCALE_SMOOTH)
+        );
+
+        button.setIcon(icon);
+
+        button.setIconTextGap(10);
     }
 
     private ButtonHandler createButtonClickHandler(JButton button, String panelName) {
         return new ButtonHandler() {
             @Override
-            public void mouseClicked(MouseEvent e) {                
-                button.setBorder(
-                    BorderFactory.createCompoundBorder(new MatteBorder(0, 4, 0, 0, Color.black), BorderFactory.createEmptyBorder(5,5,5,5))
-                );
-                
+            public void mouseClicked(MouseEvent e) {                        
                 if(panelName == "dashboard"){
                     App.getWindow().getDashboard().getPanel().setVisible(true);
+                    App.getWindow().getManageData().getPanel().setVisible(false);
                 } else if(panelName == "manage data") {
-                    App.getWindow().getDashboard().getPanel().setVisible(true);
+                    App.getWindow().getManageData().getPanel().setVisible(true);
+                    App.getWindow().getDashboard().getPanel().setVisible(false);
                 }
             }
         };

@@ -1,5 +1,10 @@
 package main.java.fnfal113.bicol_region_info_management_system;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -13,15 +18,29 @@ public class App {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                FlatIntelliJLaf.setup();
+                try {
+                    Font customFont = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets/Inter-Regular.ttf"));
+                    Font customFont2 = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets/Inter-Bold.ttf"));
+                    
+                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-                UIManager.put( "Button.arc", 10 );
-                UIManager.put( "ScrollBar.showButtons", true );
-                UIManager.put( "Table.showHorizontalLines", true );
-                
-                window = new MainWindow();
+                    //register the font
+                    ge.registerFont(customFont);
+                    ge.registerFont(customFont2);
 
-                window.show();
+                    FlatIntelliJLaf.setup();
+
+                    UIManager.put( "Button.arc", 10 );
+                    UIManager.put( "ScrollBar.showButtons", true );
+                    UIManager.put( "Table.showHorizontalLines", true );
+                    UIManager.getLookAndFeelDefaults().put("defaultFont", new Font("Inter Regular", Font.PLAIN, 12));
+
+                    window = new MainWindow();
+
+                    window.show();
+                } catch (IOException | FontFormatException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

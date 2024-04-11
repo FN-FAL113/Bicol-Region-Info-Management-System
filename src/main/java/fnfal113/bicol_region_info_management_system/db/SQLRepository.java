@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -27,6 +28,8 @@ public class SQLRepository implements Repository {
         } catch (SQLException e) {
             e.printStackTrace();
 
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Info", 1);
+
             return null;
         }
     }
@@ -45,6 +48,8 @@ public class SQLRepository implements Repository {
             return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
+
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Info", 1);
 
             return null;
         }
@@ -69,26 +74,49 @@ public class SQLRepository implements Repository {
         } catch (SQLException e) {
             e.printStackTrace();
 
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Info", 1);
+
             return -1;
         }
     }
 
     @Override
-    public void update(String query, Object[] queryParameters) {
+    public ResultSet getColumnNames(String tableName) {
+        try {
+            Connection con = new SQLDatabase().getConnection();
+
+            PreparedStatement stmt = con.prepareStatement("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? ORDER by ordinal_position;");
+
+            stmt.setString(1, tableName);
+
+            ResultSet resultSet = stmt.executeQuery();
+
+            return resultSet;
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Info", 1);
+
+            return null;
+        }
+    }
+
+    @Override
+    public void addOrUpdate(String query, ArrayList<Object> queryParameters) {
         try {
             this.connection = new SQLDatabase().getConnection();
 
             PreparedStatement stmt = this.connection.prepareStatement(query);
 
-            for (int i = 0; i < queryParameters.length; i++) {
-                stmt.setObject(i + 1, queryParameters[i]);                
+            for (int i = 0; i < queryParameters.size(); i++) {
+                stmt.setObject(i + 1, queryParameters.get(i).toString().length() > 0 ? queryParameters.get(i).toString() : null);            
             }
 
             stmt.executeUpdate();
 
             this.connection.close();
    
-            JOptionPane.showMessageDialog(null, "Successfully updated column value!", "Info", 1);
+            JOptionPane.showMessageDialog(null, "Database updated successfully!", "Info", 1);
         } catch (SQLException e) {
             e.printStackTrace();
 

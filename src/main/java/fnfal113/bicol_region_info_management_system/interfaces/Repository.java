@@ -2,7 +2,7 @@ package main.java.fnfal113.bicol_region_info_management_system.interfaces;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface Repository {
 
@@ -12,7 +12,9 @@ public interface Repository {
 
     int getRowCount(String query);
 
-    void update(String query, Object[] queryParameters) throws SQLException;
+    ResultSet getColumnNames(String tableName);
+
+    void addOrUpdate(String query, ArrayList<Object> queryParameters);
 
     void delete(String query);
 

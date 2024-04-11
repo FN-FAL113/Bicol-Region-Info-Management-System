@@ -11,17 +11,22 @@ public class ButtonFactory {
         JButton btn = new JButton();
         
         btn.setText(label);
-        btn.setFont(new Font("", Font.BOLD, 14));
+
+        btn.setFont(new Font("Inter Bold", Font.BOLD, 16));
 
         return btn;
     }
 
-    public static JButton createButton(String label, Color bgColor) {
+    public static JButton createButton(String label, Color fgColor, Color bgColor) {
         JButton btn = new JButton();
         
         btn.setText(label);
+
+        btn.setForeground(fgColor);
+
         btn.setBackground(bgColor);
-        btn.setFont(new Font("", Font.BOLD, 14));
+
+        btn.setFont(new Font("Inter Bold", Font.BOLD, 16));
 
         return btn;
     }

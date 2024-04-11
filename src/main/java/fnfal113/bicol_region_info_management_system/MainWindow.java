@@ -10,6 +10,7 @@ public class MainWindow {
     private JFrame window;
     private SideBar sideBar;
     private Dashboard dashboard;
+    private ManageData manageData;
 
     public MainWindow() {
         init();
@@ -29,6 +30,8 @@ public class MainWindow {
         this.sideBar = new SideBar(getWindow());
         
         this.dashboard = new Dashboard(getWindow());
+
+        this.manageData = new ManageData(getWindow());
         
         getWindow().add(getSideBar().getPanel(), BorderLayout.WEST);   
         
@@ -37,6 +40,12 @@ public class MainWindow {
         scrollableDashboard.getVerticalScrollBar().setUnitIncrement(16);
         
         getWindow().add(scrollableDashboard, BorderLayout.CENTER);       
+
+        JScrollPane scrollableManageData = new JScrollPane(getManageData().getPanel());
+
+        // scrollableManageData.getVerticalScrollBar().setUnitIncrement(16);
+
+        // getWindow().add(scrollableManageData, BorderLayout.CENTER);
     }
 
     public void show() {
@@ -53,5 +62,9 @@ public class MainWindow {
 
     public Dashboard getDashboard() {
         return dashboard;
+    }
+
+    public ManageData getManageData() {
+        return manageData;
     }
 }
