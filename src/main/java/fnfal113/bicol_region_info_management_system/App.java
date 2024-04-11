@@ -45,7 +45,7 @@ public class App {
         });
     }
 
-    public static MainWindow getWindow() {
+    public static MainWindow mainWindow() {
         return window;
     }
 }

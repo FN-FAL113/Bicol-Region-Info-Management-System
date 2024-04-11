@@ -8,6 +8,7 @@ import javax.swing.JScrollPane;
 public class MainWindow {
 
     private JFrame window;
+    private JScrollPane jsp = new JScrollPane();
     private SideBar sideBar;
     private Dashboard dashboard;
     private ManageData manageData;
@@ -35,17 +36,11 @@ public class MainWindow {
         
         getWindow().add(getSideBar().getPanel(), BorderLayout.WEST);   
         
-        JScrollPane scrollableDashboard = new JScrollPane(getDashboard().getPanel());
+        this.jsp = new JScrollPane(getDashboard().getPanel());
 
-        scrollableDashboard.getVerticalScrollBar().setUnitIncrement(16);
-        
-        getWindow().add(scrollableDashboard, BorderLayout.CENTER);       
+        getJsp().getVerticalScrollBar().setUnitIncrement(16);
 
-        JScrollPane scrollableManageData = new JScrollPane(getManageData().getPanel());
-
-        // scrollableManageData.getVerticalScrollBar().setUnitIncrement(16);
-
-        // getWindow().add(scrollableManageData, BorderLayout.CENTER);
+        getWindow().add(getJsp(), BorderLayout.CENTER);
     }
 
     public void show() {
@@ -56,15 +51,19 @@ public class MainWindow {
         return this.window;
     }
 
+    public JScrollPane getJsp() {
+        return this.jsp;
+    }
+
     public SideBar getSideBar() {
-        return sideBar;
+        return this.sideBar;
     }
 
     public Dashboard getDashboard() {
-        return dashboard;
+        return this.dashboard;
     }
 
     public ManageData getManageData() {
-        return manageData;
+        return this.manageData;
     }
 }

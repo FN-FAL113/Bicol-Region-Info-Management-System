@@ -5,8 +5,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.MatteBorder;
 
 import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
 import main.java.fnfal113.bicol_region_info_management_system.utils.ButtonFactory;
@@ -31,7 +29,7 @@ public class SideBar {
         createPanel();
     }
 
-    private void createPanel() {
+    public void createPanel() {
         // side bar panel
         this.panel = new JPanel(new BorderLayout());
 
@@ -47,21 +45,29 @@ public class SideBar {
         buttonsPanel.setBackground(null);
 
         JButton dashBoardBtn = ButtonFactory.createButton("Dashboard", Color.WHITE, null);
+        
         dashBoardBtn.setBackground(null);
-        dashBoardBtn.setBorder(null);
 
-        dashBoardBtn.addMouseListener(createButtonClickHandler(dashBoardBtn, "dashboard"));
+        dashBoardBtn.setBorder(null);
 
         attachButtonIcon(dashBoardBtn, "dashboard");
 
+        dashBoardBtn.addMouseListener(createButtonClickHandler(dashBoardBtn, "dashboard"));
+
         JButton manageDataBtn = ButtonFactory.createButton("Manage Data", Color.WHITE, null);
+        
         manageDataBtn.setBackground(null);
+
         manageDataBtn.setBorder(null);
 
         attachButtonIcon(manageDataBtn, "manage-data");
+
+        manageDataBtn.addMouseListener(createButtonClickHandler(dashBoardBtn, "manage data"));
         
         JButton aboutBtn = ButtonFactory.createButton("About", Color.WHITE, null);
+        
         aboutBtn.setBackground(null);
+
         aboutBtn.setBorder(null);
 
         attachButtonIcon(aboutBtn, "about");
@@ -79,7 +85,6 @@ public class SideBar {
 
         gbc.insets = new Insets(24, 0, 0, 0);
         gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.VERTICAL;
 
         buttonsPanel.add(aboutBtn, gbc);
 
@@ -99,13 +104,11 @@ public class SideBar {
     private ButtonHandler createButtonClickHandler(JButton button, String panelName) {
         return new ButtonHandler() {
             @Override
-            public void mouseClicked(MouseEvent e) {                        
-                if(panelName == "dashboard"){
-                    App.getWindow().getDashboard().getPanel().setVisible(true);
-                    App.getWindow().getManageData().getPanel().setVisible(false);
+            public void mouseClicked(MouseEvent e) {    
+                if(panelName == "dashboard") {
+                    App.mainWindow().getJsp().setViewportView( App.mainWindow().getDashboard().getPanel());
                 } else if(panelName == "manage data") {
-                    App.getWindow().getManageData().getPanel().setVisible(true);
-                    App.getWindow().getDashboard().getPanel().setVisible(false);
+                    App.mainWindow().getJsp().setViewportView(App.mainWindow().getManageData().getPanel());
                 }
             }
         };

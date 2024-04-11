@@ -1,14 +1,12 @@
 package main.java.fnfal113.bicol_region_info_management_system;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -31,13 +29,13 @@ import javax.swing.table.TableRowSorter;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
+import main.java.fnfal113.bicol_region_info_management_system.components.Widget;
 import main.java.fnfal113.bicol_region_info_management_system.db.SQLRepository;
 import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
 import main.java.fnfal113.bicol_region_info_management_system.handlers.TextFieldHandler;
 import main.java.fnfal113.bicol_region_info_management_system.utils.JTableUtils;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import java.util.List;
@@ -76,43 +74,19 @@ public class Dashboard {
 
         widgetsPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
 
-        for (int i = 0; i < this.tables.size(); i++) {
-            widgetsPanel.add(createWidget(tableNames[i], tableNames[i] + " ", this.tables.get(i).getRowCount()));
+        for (int i = 0; i < this.tableNames.length; i++) {
+            widgetsPanel.add(
+                new Widget("<html>" + tableNames[i] + "<br/>" + this.tables.get(i).getRowCount() + "</html>", tableNames[i], "#8596F4").create()
+            );
         }
 
         return widgetsPanel;
     }
 
-    public JPanel createWidget(String tableName, String header, Object body) {
-        JPanel widgetPanel = new JPanel();
-
-        widgetPanel.setBackground(Color.decode("#8596F4"));
-
-        widgetPanel.setPreferredSize(new Dimension(0, 64));
-
-        widgetPanel.putClientProperty(FlatClientProperties.STYLE, "arc: 10");
-
-        JLabel label = new JLabel("<html>" + header + "<br/>" + body.toString() + "</html>");
-        
-        label.setFont(new Font("Inter Bold", Font.BOLD, 14));
-        
-        ImageIcon icon = new ImageIcon(
-            new ImageIcon(App.class.getResource("assets/" + tableName + ".png")).getImage().getScaledInstance(32, -1, Image.SCALE_SMOOTH)
-        );
-
-        label.setIcon(icon);
-
-        label.setIconTextGap(6);
-
-        label.setBorder(BorderFactory.createEmptyBorder(8, 16, 8,16));
-        
-        widgetPanel.add(label);
-        
-        return widgetPanel;
-    }
-
     private JPanel createTables() {
         JPanel tablesPanel = new JPanel(new GridBagLayout());
+
+        tablesPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -196,7 +170,7 @@ public class Dashboard {
 
         table.setRowSorter(tableRowSorter);
 
-        JLabel filterLabel = new JLabel(table.getClientProperty("name") + " search: ");
+        JLabel filterLabel = new JLabel(table.getClientProperty("name") + " Search: ");
 
         filterLabel.setFont(new Font("Inter Regular", Font.BOLD, 12));
         
