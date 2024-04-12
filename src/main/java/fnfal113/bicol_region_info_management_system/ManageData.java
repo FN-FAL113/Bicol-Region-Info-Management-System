@@ -60,10 +60,11 @@ public class ManageData {
             gbc.weightx = 0;
             gbc.gridy = gbc.gridy + 1;
             
+            // widget
             addFormPanel.add(new Widget(tableName, tableName, "#8596F4").getPanel(), gbc);
 
             gbc.gridx = 0;
-            gbc.weightx = 1; // distribute form field horizontal space
+            gbc.weightx = 1; // distribute form text fields horizontal space
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridy = gbc.gridy + 1;
 

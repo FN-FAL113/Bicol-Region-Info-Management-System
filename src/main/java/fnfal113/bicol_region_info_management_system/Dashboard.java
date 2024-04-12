@@ -74,9 +74,9 @@ public class Dashboard {
 
         widgetsPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
 
-        for (int i = 0; i < this.tableNames.length; i++) {
+        for (int i = 0; i < this.tables.size(); i++) {
             widgetsPanel.add(
-                new Widget("<html>" + tableNames[i] + "<br/>" + this.tables.get(i).getRowCount() + "</html>", tableNames[i], "#8596F4").create()
+                new Widget("<html>" + tableNames[i] + "<br/>" + this.tables.get(i).getRowCount() + "</html>", tableNames[i], "#8596F4").getPanel()
             );
         }
 
