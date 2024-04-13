@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import main.java.fnfal113.bicol_region_info_management_system.interfaces.Database;
 
 public class SQLDatabase implements Database {
@@ -20,6 +22,8 @@ public class SQLDatabase implements Database {
             this.connection = DriverManager.getConnection("jdbc:mysql://localhost:4306/bicol_region", "root", "admin");
         } catch (SQLException e) {
             e.printStackTrace();
+
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Info", 1);
         }
     }
 

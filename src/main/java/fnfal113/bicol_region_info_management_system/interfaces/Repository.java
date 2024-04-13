@@ -16,7 +16,7 @@ public interface Repository {
 
     void addOrUpdate(String query, ArrayList<Object> queryParameters);
 
-    void delete(String query);
+    void delete(String query, String id);
 
     Connection getConnection(); 
 

@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -22,6 +23,7 @@ import main.java.fnfal113.bicol_region_info_management_system.components.FormFie
 import main.java.fnfal113.bicol_region_info_management_system.components.Widget;
 import main.java.fnfal113.bicol_region_info_management_system.db.SQLRepository;
 import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
+import main.java.fnfal113.bicol_region_info_management_system.utils.JTableUtils;
 
 public class ManageData {
     
@@ -29,9 +31,9 @@ public class ManageData {
     
     private JPanel panel;
 
-    private Map<String, JTextField> formFields = new HashMap<>();
+    private Map<String, JTextField> tableFieldsMap = new HashMap<>();
 
-    private String[] tableNames = {"Provinces", "Municipalities", "Barangays"};
+    private String[] tableNames = { "Provinces", "Municipalities", "Barangays" };
 
 
     public ManageData(JFrame window) {
@@ -44,10 +46,10 @@ public class ManageData {
     private void initializePanel() {
         this.panel.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
 
-        this.panel.add(createAddForms());
+        this.panel.add(createForms());
     }
 
-    private JPanel createAddForms() {
+    private JPanel createForms() {
         JPanel addFormPanel = new JPanel(new GridBagLayout());
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -75,11 +77,9 @@ public class ManageData {
                 while (tableColumnsResultSet.next()) {
                     String columnName = tableColumnsResultSet.getString(1);
 
-                    if(columnName.equals("id")) continue;
+                    FormField formField = new FormField(columnName.equals("id") ? columnName + " (optional)" : columnName);
 
-                    FormField formField = new FormField(columnName);
-
-                    getFormFields().put(tableName + "." + columnName, formField.getTextField());
+                    getTableFieldsMap().put(tableName + "." + columnName, formField.getTextField());
 
                     addFormPanel.add(formField.getPanel(), gbc);
 
@@ -95,7 +95,7 @@ public class ManageData {
                 gbc.gridy = gbc.gridy + 1;
                 gbc.fill = GridBagConstraints.NONE;
                 
-                addFormPanel.add(createAddFormButton(tableName), gbc);
+                addFormPanel.add(createFormButtons(tableName), gbc);
 
                 gbc.gridx = 0;
                 gbc.gridy = gbc.gridy + 1;
@@ -107,16 +107,18 @@ public class ManageData {
         return addFormPanel;
     }
 
-    public JButton createAddFormButton(String tableName) {
-        JButton addFormButton = new JButton();
+    public JPanel createFormButtons(String tableName) {
+        JPanel formButtonsPanel = new JPanel();
 
-        addFormButton.setText("Add Data");
+        JButton addDataButton = new JButton();
 
-        addFormButton.setFont(new Font("Inter Bold", Font.BOLD, 12));
+        addDataButton.setText("Add");
 
-        addFormButton.setMargin(new Insets(6, 6, 6, 6));
+        addDataButton.setFont(new Font("Inter Bold", Font.BOLD, 12));
 
-        addFormButton.addMouseListener(new ButtonHandler() {
+        addDataButton.setMargin(new Insets(6, 6, 6, 6));
+
+        addDataButton.addMouseListener(new ButtonHandler() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
@@ -129,24 +131,58 @@ public class ManageData {
 
                     // traverse table columns
                     while (resultSet.next()) {
-                        if(resultSet.getString(1).equals("id")) continue;
-
                         String columnName = resultSet.getString(1);
                         
                         queryBindings.add(columnName + " = ?") ;
 
-                        queryParameters.add(getFormFields().get(tableName + "." + columnName).getText()); 
+                        queryParameters.add(getTableFieldsMap().get(tableName + "." + columnName).getText()); 
                     }
 
                     repository.addOrUpdate("INSERT INTO " + tableName + " SET " + String.join(",", queryBindings) + ";", queryParameters);
 
+                    JTableUtils.refreshTables(App.mainWindow().getDashboard().getTables().values());
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+
+                    JOptionPane.showMessageDialog(addDataButton, ex.getMessage(), "Info", 1);
                 }
             }
         });
+
+        formButtonsPanel.add(addDataButton);
         
-        return addFormButton;
+        JButton deleteDataButton = new JButton();
+
+        deleteDataButton.setText("Delete");
+
+        deleteDataButton.setToolTipText("Delete a table record by ID");
+
+        deleteDataButton.setFont(new Font("Inter Bold", Font.BOLD, 12));
+
+        deleteDataButton.setMargin(new Insets(6, 6, 6, 6));
+
+        deleteDataButton.addMouseListener(new ButtonHandler() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SQLRepository repository = new SQLRepository();
+               
+                String id = getTableFieldsMap().get(tableName + "." + "id").getText();
+
+                if(id.isEmpty()) {
+                    JOptionPane.showMessageDialog(addDataButton, "Please set a record ID", "Info", 1);
+
+                    return;
+                }
+
+                repository.delete("DELETE FROM " + tableName + " WHERE id = ?;", id);
+
+                JTableUtils.refreshTables(App.mainWindow().getDashboard().getTables().values());
+            }
+        });
+
+        formButtonsPanel.add(deleteDataButton);
+        
+        return formButtonsPanel;
     }
 
     public JFrame getWindow() {
@@ -157,8 +193,8 @@ public class ManageData {
         return this.panel;
     }
 
-    public Map<String, JTextField> getFormFields() {
-        return formFields;
+    public Map<String, JTextField> getTableFieldsMap() {
+        return tableFieldsMap;
     }
 
 }

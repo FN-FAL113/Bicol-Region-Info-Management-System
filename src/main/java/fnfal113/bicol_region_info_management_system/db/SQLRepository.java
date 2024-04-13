@@ -125,7 +125,24 @@ public class SQLRepository implements Repository {
     }
 
     @Override
-    public void delete(String query) {
+    public void delete(String query, String id) {
+        try {
+            this.connection = new SQLDatabase().getConnection();
+
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+
+            stmt.setObject(1, id);    
+
+            stmt.executeUpdate();
+
+            this.connection.close();
+   
+            JOptionPane.showMessageDialog(null, "Database updated successfully!", "Info", 1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Info", 0);
+        }
     }
 
     public Connection getConnection() {

@@ -1,10 +1,12 @@
 package main.java.fnfal113.bicol_region_info_management_system.components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,7 +23,7 @@ public class Widget {
     private String backgroundColor;
     
     public Widget(String text, String iconFileName, String backgroundColor) {
-        this.panel = new JPanel();
+        this.panel = new JPanel(new BorderLayout());
         this.text = text;
         this.iconFileName = iconFileName;
         this.backgroundColor = backgroundColor;
@@ -33,12 +35,15 @@ public class Widget {
     public JPanel create() {
         this.panel.setBackground(Color.decode(backgroundColor));
 
-        this.panel.setPreferredSize(new Dimension(160, 48));
-        this.panel.setMaximumSize(new Dimension(160, 48));
+        this.panel.setPreferredSize(new Dimension(160, 52));
 
         this.panel.putClientProperty(FlatClientProperties.STYLE, "arc: 10");
 
         JLabel label = new JLabel(this.text);
+
+        label.setHorizontalAlignment(JLabel.CENTER);
+
+        label.setVerticalAlignment(JLabel.CENTER);
         
         label.setFont(new Font("Inter Bold", Font.BOLD, 14));
         
@@ -50,7 +55,7 @@ public class Widget {
 
         label.setIconTextGap(8);
         
-        this.panel.add(label);
+        this.panel.add(label, BorderLayout.CENTER);
         
         return this.panel;
     }

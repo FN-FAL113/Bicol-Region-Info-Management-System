@@ -8,8 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
@@ -22,8 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -38,8 +34,8 @@ import main.java.fnfal113.bicol_region_info_management_system.utils.JTableUtils;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Dashboard {
     
@@ -47,9 +43,9 @@ public class Dashboard {
     
     private JPanel panel;
 
-    private List<JTable> tables = new ArrayList<JTable>();
+    private Map<String, JTable> tables = new HashMap<>();
 
-    private String[] tableNames = {"Provinces", "Municipalities", "Barangays"};
+    private String[] tableNames = { "Provinces", "Municipalities", "Barangays" };
 
     public Dashboard(JFrame window) {
         this.window = window;
@@ -74,9 +70,11 @@ public class Dashboard {
 
         widgetsPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
 
-        for (int i = 0; i < this.tables.size(); i++) {
+        for (JTable table : this.tables.values()) {
+            String tableName = table.getClientProperty("name").toString();
+
             widgetsPanel.add(
-                new Widget("<html>" + tableNames[i] + "<br/>" + this.tables.get(i).getRowCount() + "</html>", tableNames[i], "#8596F4").getPanel()
+                new Widget("<html>" + tableName + "<br/>" + table.getRowCount() + "</html>", tableName, "#8596F4").getPanel()
             );
         }
 
@@ -90,43 +88,14 @@ public class Dashboard {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        for (int i = 0; i < this.tableNames.length; i++) {
-            JTable table = JTableUtils.createTableFromTableName(tableNames[i], new SQLRepository());
+        for (String tableName : this.tableNames) {
+            JTable table = JTableUtils.createTableFromDatabase(tableName, new SQLRepository());
 
-            String tableName = table.getClientProperty("name").toString().toLowerCase();
+            table.getTableHeader().setFont(new Font("Inter Bold", Font.PLAIN, 12));
 
-            table.getTableHeader().setFont(new Font("Inter Regular", Font.BOLD, 12));
+            table.addFocusListener(JTableUtils.createTableFocusListener(table));
 
-            table.addFocusListener(new FocusListener() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    table.putClientProperty("currentRowId", table.getValueAt(table.getSelectedRow(), 0));
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {} 
-            });
-
-            table.getModel().addTableModelListener(new TableModelListener() {
-                @Override
-                public void tableChanged(TableModelEvent e) {
-                    SQLRepository repository = new SQLRepository();
-
-                    ArrayList<Object> queryParameters = new ArrayList<>();
-                    
-                    queryParameters.add(table.getValueAt(e.getFirstRow(), e.getColumn())); // new value
-                    queryParameters.add(table.getClientProperty("currentRowId")); // original row id)
-
-                    repository.addOrUpdate("UPDATE " + tableName + 
-                        " SET " + table.getColumnName(e.getColumn()) + " = ? WHERE id = ?;", queryParameters);
-
-                    for (int j = 0; j < tables.size(); j++) {
-                        if(getTables().get(j).equals(table)) continue;
-
-                        getTables().get(j).setModel(JTableUtils.generateTableModel(tableName, new SQLRepository()));
-                    }
-                }
-            });
+            table.getModel().addTableModelListener(JTableUtils.createTableModelListener(table, tableName));
 
             JScrollPane jsp = new JScrollPane(table);
 
@@ -137,7 +106,7 @@ public class Dashboard {
             gbc.weightx = 1;
             gbc.fill = GridBagConstraints.HORIZONTAL;
 
-            this.tables.add(table);
+            this.tables.put(tableName, table);
 
             tablesPanel.add(jsp, gbc);
 
@@ -155,7 +124,7 @@ public class Dashboard {
         JPanel optionsPanel = new JPanel();
            
         // search field
-        optionsPanel.add(createTableOptionFilter(table, -1));
+        optionsPanel.add(createTableFilter(table, -1));
 
         // barangay locator
         if(table.getClientProperty("name") != "Provinces") optionsPanel.add(createTableOptionBarangayLocator(table));
@@ -163,16 +132,12 @@ public class Dashboard {
         return optionsPanel;
     }
 
-    public JPanel createTableOptionFilter(JTable table, int columnIndex) {
+    public JPanel createTableFilter(JTable table, int columnIndex) {
         JPanel filterPanel = new JPanel();
-
-        TableRowSorter<TableModel> tableRowSorter = new TableRowSorter<>(table.getModel());
-
-        table.setRowSorter(tableRowSorter);
 
         JLabel filterLabel = new JLabel(table.getClientProperty("name") + " Search: ");
 
-        filterLabel.setFont(new Font("Inter Regular", Font.BOLD, 12));
+        filterLabel.setFont(new Font("Inter Bold", Font.PLAIN, 12));
         
         JTextField filterField = new JTextField();
 
@@ -182,6 +147,9 @@ public class Dashboard {
             @Override
             protected void handler() {
                 String text = filterField.getText();
+                
+                // unchecked cast, row sorter is set on table creation
+                TableRowSorter<TableModel> tableRowSorter = (TableRowSorter<TableModel>) table.getRowSorter();
 
                 if (text.length() > 0) {
                     // case insensitive
@@ -213,7 +181,7 @@ public class Dashboard {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if(table.getSelectedRow() < 0) {
-                    JOptionPane.showMessageDialog(locateBtn, "Please select a row", "Info", 0);
+                    JOptionPane.showMessageDialog(locateBtn, "Please select a row first", "Info", 0);
 
                     return;
                 }
@@ -241,14 +209,14 @@ public class Dashboard {
     }
 
     public JFrame getWindow() {
-        return window;
+        return this.window;
     }
 
     public JPanel getPanel() {
         return this.panel;
     }
 
-    public List<JTable> getTables() {
+    public Map<String, JTable> getTables() {
         return this.tables;
     }
 
