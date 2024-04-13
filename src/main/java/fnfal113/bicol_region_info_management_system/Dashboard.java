@@ -86,7 +86,7 @@ public class Dashboard {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        for (String tableName : this.tableNames) {
+        for (String tableName : tableNames) {
             JTable table = JTableUtils.createTableFromDbTable(tableName, new SQLRepository());
 
             table.getTableHeader().setFont(new Font("Inter Bold", Font.PLAIN, 12));
