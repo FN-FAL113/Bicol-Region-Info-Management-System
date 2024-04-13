@@ -45,31 +45,22 @@ public class SideBar {
         buttonsPanel.setBackground(null);
 
         JButton dashBoardBtn = ButtonFactory.createButton("Dashboard", Color.WHITE, null);
-        
         dashBoardBtn.setBackground(null);
-
         dashBoardBtn.setBorder(null);
-
         attachButtonIcon(dashBoardBtn, "dashboard");
 
         dashBoardBtn.addMouseListener(createButtonClickHandler(dashBoardBtn, "dashboard"));
 
         JButton manageDataBtn = ButtonFactory.createButton("Manage Data", Color.WHITE, null);
-        
         manageDataBtn.setBackground(null);
-
         manageDataBtn.setBorder(null);
-
         attachButtonIcon(manageDataBtn, "manage-data");
 
         manageDataBtn.addMouseListener(createButtonClickHandler(dashBoardBtn, "manage data"));
         
         JButton aboutBtn = ButtonFactory.createButton("About", Color.WHITE, null);
-        
         aboutBtn.setBackground(null);
-
         aboutBtn.setBorder(null);
-
         attachButtonIcon(aboutBtn, "about");
 
         GridBagConstraints gbc = new GridBagConstraints();

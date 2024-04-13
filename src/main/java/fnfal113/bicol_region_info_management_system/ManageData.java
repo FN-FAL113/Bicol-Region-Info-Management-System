@@ -80,7 +80,8 @@ public class ManageData {
 
                     addFormPanel.add(formField.getPanel(), gbc);
 
-                    if(gbc.gridx == 2) { // limit to 3 text field per grid bag row
+                    // limit three text field per row
+                    if(gbc.gridx == 2) { 
                         gbc.gridx = 0;
                         gbc.gridy = gbc.gridy + 1;
                     } else {
