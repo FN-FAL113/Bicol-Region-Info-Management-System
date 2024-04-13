@@ -49,9 +49,11 @@ public class JTableUtils {
             
             ResultSetMetaData metaData = resultSet.getMetaData();
 
+            int rowCount = repository.getRowCount("SELECT COUNT(*) FROM " + metaData.getTableName(1));
+
             String[] columns = new String[metaData.getColumnCount()];
             
-            Object[][] data = new Object[repository.getRowCount("SELECT COUNT(*) FROM " + metaData.getTableName(1))][columns.length];
+            Object[][] data = new Object[rowCount][columns.length];
 
             // result set cell indexing starts at 1
             for (int i = 0; i < columns.length; i++) {   
