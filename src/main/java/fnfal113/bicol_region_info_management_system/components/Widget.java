@@ -45,7 +45,7 @@ public class Widget {
 
         label.setVerticalAlignment(JLabel.CENTER);
         
-        label.setFont(new Font("Inter Bold", Font.BOLD, 14));
+        label.setFont(new Font("Inter Regular", Font.PLAIN, 14));
         
         ImageIcon icon = new ImageIcon(
             new ImageIcon(App.class.getResource("assets/" + iconFileName + ".png")).getImage().getScaledInstance(32, -1, Image.SCALE_SMOOTH)

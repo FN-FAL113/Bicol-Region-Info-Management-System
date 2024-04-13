@@ -73,9 +73,7 @@ public class Dashboard {
         for (JTable table : this.tables.values()) {
             String tableName = table.getClientProperty("name").toString();
 
-            widgetsPanel.add(
-                new Widget("<html>" + tableName + "<br/>" + table.getRowCount() + "</html>", tableName, "#8596F4").getPanel()
-            );
+            widgetsPanel.add(new Widget("<html>" + tableName + "<br/>" + "<span style='font-weight: bold;'>" + table.getRowCount() + "</span>" + "</html>", tableName, "#8596F4").getPanel());
         }
 
         return widgetsPanel;
@@ -161,7 +159,7 @@ public class Dashboard {
         });
 
         filterPanel.add(filterLabel);
-        
+
         filterPanel.add(filterField);
 
         return filterPanel;

@@ -18,16 +18,14 @@ public class FormField {
     private String fieldName;
 
     public FormField(String fieldName) {
-        this.panel = new JPanel();
+        this.panel = new JPanel(new BorderLayout());
         this.textField = new JTextField();
         this.fieldName = fieldName;
 
         create();
     }
 
-    private JPanel create() {
-        this.panel.setLayout(new BorderLayout());
-        
+    private JPanel create() {   
         this.panel.setBackground(null);
         
         JLabel label = new JLabel(StringUtils.toPascalCase(this.fieldName));
