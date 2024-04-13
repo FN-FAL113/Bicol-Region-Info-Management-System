@@ -161,6 +161,7 @@ public class Dashboard {
         });
 
         filterPanel.add(filterLabel);
+        
         filterPanel.add(filterField);
 
         return filterPanel;

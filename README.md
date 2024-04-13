@@ -10,8 +10,11 @@ A java swing application for managing demographic-related data on some provinces
     - Editable table cells that reflects to database
     - Municipality and Barangay locator (third-party website)
 - Manage Data
-    - Add form (WIP)
-    - Delete by row ID form (WIP)
+    - Form
+    - Add data function
+    - Delete by row ID function
+- About
+    - JFrame for showing acknowledgements
 
 ## Special Mentions
 

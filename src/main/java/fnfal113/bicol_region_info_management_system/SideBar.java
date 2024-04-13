@@ -98,7 +98,7 @@ public class SideBar {
 
         button.setIcon(icon);
 
-        button.setIconTextGap(10);
+        button.setIconTextGap(8);
     }
 
     private ButtonHandler createButtonClickHandler(JButton button, String panelName) {

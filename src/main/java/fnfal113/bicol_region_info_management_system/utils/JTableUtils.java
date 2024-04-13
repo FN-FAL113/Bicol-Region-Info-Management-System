@@ -89,6 +89,7 @@ public class JTableUtils {
                 ArrayList<Object> queryParameters = new ArrayList<>();
                 
                 queryParameters.add(table.getValueAt(e.getFirstRow(), e.getColumn())); // new value
+                
                 queryParameters.add(table.getClientProperty("rowId")); // original row id          
 
                 repository.addOrUpdate("UPDATE " + tableName + 
