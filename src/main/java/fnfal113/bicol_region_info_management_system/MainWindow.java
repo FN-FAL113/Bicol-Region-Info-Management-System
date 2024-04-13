@@ -8,9 +8,13 @@ import javax.swing.JScrollPane;
 public class MainWindow {
 
     private JFrame window;
-    private JScrollPane jsp = new JScrollPane();
+    
+    private JScrollPane mainViewScrollPane = new JScrollPane();
+    
     private SideBar sideBar;
+    
     private Dashboard dashboard;
+    
     private ManageData manageData;
 
     public MainWindow() {
@@ -36,11 +40,11 @@ public class MainWindow {
         
         getWindow().add(getSideBar().getPanel(), BorderLayout.WEST);   
         
-        this.jsp = new JScrollPane(getDashboard().getPanel());
+        this.mainViewScrollPane = new JScrollPane(getDashboard().getPanel());
 
-        getJsp().getVerticalScrollBar().setUnitIncrement(16);
+        getMainViewScrollPane().getVerticalScrollBar().setUnitIncrement(16);
 
-        getWindow().add(getJsp(), BorderLayout.CENTER);
+        getWindow().add(getMainViewScrollPane(), BorderLayout.CENTER);
     }
 
     public void show() {
@@ -51,8 +55,8 @@ public class MainWindow {
         return this.window;
     }
 
-    public JScrollPane getJsp() {
-        return this.jsp;
+    public JScrollPane getMainViewScrollPane() {
+        return this.mainViewScrollPane;
     }
 
     public SideBar getSideBar() {

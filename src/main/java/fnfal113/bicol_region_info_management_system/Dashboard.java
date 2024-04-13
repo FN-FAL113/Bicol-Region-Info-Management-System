@@ -45,7 +45,7 @@ public class Dashboard {
 
     private Map<String, JTable> tables = new HashMap<>();
 
-    private String[] tableNames = { "Provinces", "Municipalities", "Barangays" };
+    public final static String[] tableNames = { "Provinces", "Municipalities", "Barangays" };
 
     public Dashboard(JFrame window) {
         this.window = window;
@@ -82,18 +82,18 @@ public class Dashboard {
     private JPanel createTables() {
         JPanel tablesPanel = new JPanel(new GridBagLayout());
 
-        tablesPanel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
+        tablesPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
 
         GridBagConstraints gbc = new GridBagConstraints();
 
         for (String tableName : this.tableNames) {
-            JTable table = JTableUtils.createTableFromDatabase(tableName, new SQLRepository());
+            JTable table = JTableUtils.createTableFromDbTable(tableName, new SQLRepository());
 
             table.getTableHeader().setFont(new Font("Inter Bold", Font.PLAIN, 12));
 
-            table.addFocusListener(JTableUtils.createTableFocusListener(table));
+            table.addFocusListener(JTableUtils.createFocusIdHandler(table));
 
-            table.getModel().addTableModelListener(JTableUtils.createTableModelListener(table, tableName));
+            table.getModel().addTableModelListener(JTableUtils.createModelUpdateHandler(table, tableName));
 
             JScrollPane jsp = new JScrollPane(table);
 

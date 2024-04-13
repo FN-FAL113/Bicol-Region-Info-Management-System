@@ -33,9 +33,6 @@ public class ManageData {
 
     private Map<String, JTextField> tableFieldsMap = new HashMap<>();
 
-    private String[] tableNames = { "Provinces", "Municipalities", "Barangays" };
-
-
     public ManageData(JFrame window) {
         this.window = window;
         this.panel = new JPanel(new GridLayout(1, 0));
@@ -56,7 +53,7 @@ public class ManageData {
 
         gbc.insets = new Insets(8, 8, 8, 8);
 
-        for (String tableName : this.tableNames) {
+        for (String tableName : Dashboard.tableNames) {
             // center form header
             gbc.gridx = 1; 
             gbc.weightx = 0;

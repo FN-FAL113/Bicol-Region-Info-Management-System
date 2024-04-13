@@ -106,9 +106,9 @@ public class SideBar {
             @Override
             public void mouseClicked(MouseEvent e) {    
                 if(panelName == "dashboard") {
-                    App.mainWindow().getJsp().setViewportView( App.mainWindow().getDashboard().getPanel());
+                    App.mainWindow().getMainViewScrollPane().setViewportView(App.mainWindow().getDashboard().getPanel());
                 } else if(panelName == "manage data") {
-                    App.mainWindow().getJsp().setViewportView(App.mainWindow().getManageData().getPanel());
+                    App.mainWindow().getMainViewScrollPane().setViewportView(App.mainWindow().getManageData().getPanel());
                 }
             }
         };

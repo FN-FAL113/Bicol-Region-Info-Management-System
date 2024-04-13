@@ -23,9 +23,9 @@ import java.util.Collection;
 
 public class JTableUtils {
     
-    public static JTable createTableFromDatabase(String tableName, Repository repository) {
+    public static JTable createTableFromDbTable(String tableName, Repository repository) {
         try {
-            JTable table = new JTable(createTableModel(tableName, repository));
+            JTable table = new JTable(createModelFromDbTable(tableName, repository));
 
             TableRowSorter<TableModel> tableRowSorter = new TableRowSorter<>(table.getModel());
 
@@ -43,7 +43,7 @@ public class JTableUtils {
         }        
     }
 
-    public static DefaultTableModel createTableModel(String tableName, Repository repository) {
+    public static DefaultTableModel createModelFromDbTable(String tableName, Repository repository) {
         try {
             ResultSet resultSet = repository.getAll(tableName);
             
@@ -61,7 +61,7 @@ public class JTableUtils {
             }
 
             while (resultSet.next()) {
-                // traverse column data
+                // initialize multi-dimension object arrray from result set
                 for (int col = 0; col < columns.length; col++) {
                     data[resultSet.getRow() - 1][col] = resultSet.getObject(col + 1);
                 }
@@ -79,7 +79,7 @@ public class JTableUtils {
         }
     }
 
-    public static TableModelListener createTableModelListener(JTable table, String tableName) {
+    public static TableModelListener createModelUpdateHandler(JTable table, String tableName) {
         return new TableModelListener() {
 
             @Override
@@ -101,7 +101,7 @@ public class JTableUtils {
         };
     }
 
-    public static FocusListener createTableFocusListener(JTable table) {
+    public static FocusListener createFocusIdHandler(JTable table) {
         return new FocusListener() {
 
             @Override
@@ -121,15 +121,15 @@ public class JTableUtils {
             String tableName = mapTableValue.getClientProperty("name").toString();
 
             // create new table model and attach listeners to it
-            DefaultTableModel model = createTableModel(tableName, new SQLRepository());
+            DefaultTableModel model = createModelFromDbTable(tableName, new SQLRepository());
 
             ((TableRowSorter<TableModel>) mapTableValue.getRowSorter()).setModel(model);
              
             mapTableValue.setModel(model);
              
-            mapTableValue.getModel().addTableModelListener(createTableModelListener(mapTableValue, tableName)); 
+            mapTableValue.getModel().addTableModelListener(createModelUpdateHandler(mapTableValue, tableName)); 
             
-            mapTableValue.addFocusListener(createTableFocusListener(mapTableValue));
+            mapTableValue.addFocusListener(createFocusIdHandler(mapTableValue));
         }
     }
 
