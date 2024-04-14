@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import main.java.fnfal113.bicol_region_info_management_system.components.FormField;
-import main.java.fnfal113.bicol_region_info_management_system.components.Widget;
+import main.java.fnfal113.bicol_region_info_management_system.components.Card;
 import main.java.fnfal113.bicol_region_info_management_system.db.SQLRepository;
 import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
 import main.java.fnfal113.bicol_region_info_management_system.utils.JTableUtils;
@@ -60,7 +60,7 @@ public class ManageData {
             gbc.gridy = gbc.gridy + 1;
             
             // widget
-            addFormPanel.add(new Widget(tableName, tableName, "#8596F4").getPanel(), gbc);
+            addFormPanel.add(new Card(tableName, tableName, "#8596F4", 180, 60).getPanel(), gbc);
 
             gbc.gridx = 0;
             gbc.weightx = 1; // distribute form text fields horizontal space
@@ -167,7 +167,7 @@ public class ManageData {
                 String id = getTableFieldsMap().get(tableName + "." + "id").getText();
 
                 if(id.isEmpty()) {
-                    JOptionPane.showMessageDialog(addDataButton, "Please set a record ID", "Info", 1);
+                    JOptionPane.showMessageDialog(addDataButton, "ID field cannot be empty", "Info", 1);
 
                     return;
                 }

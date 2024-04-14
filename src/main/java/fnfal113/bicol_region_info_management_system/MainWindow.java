@@ -28,7 +28,7 @@ public class MainWindow {
         
         this.window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-        this.window.setSize(800, 600);
+        this.window.setSize(1000, 720);
         
         this.window.setLocationRelativeTo(null);
 
