@@ -63,9 +63,11 @@ public class Dashboard {
     }
 
     private JPanel createWidgets() {
-        GridLayout layout = new GridLayout(1, 4);
+        GridLayout layout = new GridLayout(1, 3);
 
         layout.setHgap(8);
+
+        layout.setVgap(8);
 
         JPanel widgetsPanel = new JPanel(layout);
 

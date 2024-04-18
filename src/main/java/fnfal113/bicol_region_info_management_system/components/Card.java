@@ -53,9 +53,11 @@ public class Card {
             new ImageIcon(App.class.getResource("assets/" + iconFileName + ".png")).getImage().getScaledInstance(32, -1, Image.SCALE_SMOOTH)
         );
 
-        label.setIcon(icon);
+        if(this.iconFileName != null) {
+            label.setIcon(icon);
 
-        label.setIconTextGap(8);
+            label.setIconTextGap(8);
+        }
 
         label.setFont(new Font("Inter Bold", Font.BOLD, 16));
 

@@ -33,6 +33,7 @@ public class App {
                     UIManager.put( "Button.arc", 10 );
                     UIManager.put( "ScrollBar.showButtons", true );
                     UIManager.put( "Table.showHorizontalLines", true );
+                    
                     UIManager.getLookAndFeelDefaults().put("defaultFont", new Font("Inter Regular", Font.PLAIN, 12));
 
                     window = new MainWindow();
