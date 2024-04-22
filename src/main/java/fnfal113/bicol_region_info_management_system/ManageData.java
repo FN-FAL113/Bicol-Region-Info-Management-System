@@ -21,7 +21,7 @@ public class ManageData {
 
     public ManageData(JFrame window) {
         this.window = window;
-        this.panel = new JPanel(new GridLayout(1, 0));
+        this.panel = new JPanel(new GridLayout(1, 1));
 
         initializePanel();
     }
@@ -33,10 +33,14 @@ public class ManageData {
     }
 
     private JPanel createForms() {
-        JPanel formsPanel = new JPanel(new GridLayout(3, 1));
+        GridLayout gridLayout = new GridLayout(3, 1);
+
+        gridLayout.setVgap(16);
+
+        JPanel formsPanel = new JPanel(gridLayout);
         
         for (String tableName : Dashboard.tableNames) {
-            formsPanel.add(new Form(tableName, tableName));
+            formsPanel.add(new Form(tableName, tableName + "-XL", this.tableFieldsMap));
         }
 
         return formsPanel;

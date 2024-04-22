@@ -12,13 +12,17 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -27,14 +31,16 @@ import main.java.fnfal113.bicol_region_info_management_system.db.SQLRepository;
 import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
 import main.java.fnfal113.bicol_region_info_management_system.utils.JTableUtils;
 
-public class Form extends JLayeredPane {
+public class Form extends JPanel {
     
     private String tableName;
     private String bgImageFileName;
+    private Map<String, JTextField> tableFieldsMap;
 
-    public Form(String tableName, String bgImageFIleName) {
+    public Form(String tableName, String bgImageFIleName, Map<String, JTextField> tableFieldsMap) {
         this.tableName = tableName;
         this.bgImageFileName = bgImageFIleName;
+        this.tableFieldsMap = tableFieldsMap;
 
         init();
     }
@@ -46,7 +52,7 @@ public class Form extends JLayeredPane {
         try {
             BufferedImage buffed = ImageIO.read(App.class.getResourceAsStream("assets/" + this.bgImageFileName + ".png"));
 
-            g.drawImage(buffed, this.getSize().width - 52, 14, this);
+            g.drawImage(buffed, this.getSize().width - 154, this.getSize().height - 154, this);
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -56,28 +62,39 @@ public class Form extends JLayeredPane {
 
     public void init() {
         this.setLayout(new GridBagLayout());
-        this.putClientProperty(FlatClientProperties.STYLE, "arc: 19");
+        
+        this.setBorder(new CompoundBorder(new MatteBorder(null), new EmptyBorder(24, 24, 24, 24)));
+
+        this.setMinimumSize(this.getPreferredSize());
+        
         this.setBackground(Color.decode("#8596F4"));
+
+        this.putClientProperty(FlatClientProperties.STYLE, "arc: 19");
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.insets = new Insets(8, 8, 14, 8);
         
         // center form header
-        gbc.gridx = 1; 
+        gbc.gridx = 0; 
         gbc.weightx = 0;
         gbc.gridy = gbc.gridy + 1;
+        gbc.anchor = GridBagConstraints.WEST;
 
         JLabel formHeader = new JLabel(tableName);
 
-        formHeader.setFont(new Font("Inter Bold", Font.BOLD, 16));
+        formHeader.setForeground(Color.WHITE);
+
+        formHeader.setFont(new Font("Inter Bold", Font.BOLD, 20));
         
         this.add(formHeader, gbc);
 
+        gbc.insets = new Insets(8, 8, 8, 8);
+
         gbc.gridx = 0;
         gbc.weightx = 1; // distribute form text fields horizontal space
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridy = gbc.gridy + 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         try {
             ResultSet tableColumnsResultSet = new SQLRepository().getColumnNames(tableName.toLowerCase());
@@ -88,7 +105,7 @@ public class Form extends JLayeredPane {
 
                 FormField formField = new FormField(columnName.equals("id") ? columnName + " (optional)" : columnName);
 
-                App.mainWindow().getManageData().getTableFieldsMap().put(tableName + "." + columnName, formField.getTextField());
+                this.tableFieldsMap.put(tableName + "." + columnName, formField.getTextField());
 
                 this.add(formField.getPanel(), gbc);
 
@@ -101,13 +118,12 @@ public class Form extends JLayeredPane {
                 }
             }
 
-            gbc.gridx = 1;
+            gbc.gridx = 0;
             gbc.gridy = gbc.gridy + 1;
             gbc.fill = GridBagConstraints.NONE;
             
             this.add(createFormButtons(tableName), gbc);
 
-            gbc.gridx = 0;
             gbc.gridy = gbc.gridy + 1;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,6 +132,9 @@ public class Form extends JLayeredPane {
 
     public JPanel createFormButtons(String tableName) {
         JPanel formButtonsPanel = new JPanel();
+
+        formButtonsPanel.setBackground(getBackground());
+        formButtonsPanel.setOpaque(false);
 
         JButton addDataButton = new JButton();
 
