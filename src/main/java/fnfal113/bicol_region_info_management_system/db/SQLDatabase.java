@@ -19,7 +19,7 @@ public class SQLDatabase implements Database {
     @Override
     public void createConnection() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:4306/bicol_region", "root", "admin");
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:4306/bicol_region_info_management_system", "root", "admin");
         } catch (SQLException e) {
             e.printStackTrace();
 

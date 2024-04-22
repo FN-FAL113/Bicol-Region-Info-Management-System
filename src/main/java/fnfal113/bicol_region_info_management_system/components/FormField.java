@@ -3,6 +3,7 @@ package main.java.fnfal113.bicol_region_info_management_system.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -25,23 +26,32 @@ public class FormField {
         create();
     }
 
-    private JPanel create() {   
-        this.panel.setBackground(null);
-        
+    private JPanel create() {     
+        this.panel.setBackground(null);  
+        this.panel.setOpaque(false);
+
         JLabel label = new JLabel(StringUtils.toPascalCase(this.fieldName));
 
         label.setBorder(BorderFactory.createEmptyBorder(0, 2, 2, 0));
+    
+        label.setFont(new Font("Inter Bold", Font.BOLD, 12));
 
-        this.textField.setBackground(null);
+        label.setForeground(Color.WHITE);
+        label.setBackground(null);
+        label.setOpaque(false);
 
         this.textField.setBorder(
             BorderFactory.createCompoundBorder(
-                BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK), 
+                BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE), 
                 BorderFactory.createEmptyBorder(4, 4, 4, 4)
             )
         );
 
         this.textField.setPreferredSize(new Dimension(160, 30));
+
+        this.textField.setForeground(Color.WHITE);
+        this.textField.setBackground(null);
+        this.textField.setOpaque(false);
 
         this.panel.add(label, BorderLayout.NORTH);
         this.panel.add(textField, BorderLayout.SOUTH);

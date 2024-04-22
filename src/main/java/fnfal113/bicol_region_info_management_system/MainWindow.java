@@ -18,12 +18,15 @@ public class MainWindow {
     private ManageData manageData;
 
     public MainWindow() {
+        this.window = new JFrame();
+        this.sideBar = new SideBar(getWindow());
+        this.dashboard = new Dashboard(getWindow());
+        this.manageData = new ManageData(getWindow());
+
         init();
     }
 
     public void init() {
-        this.window = new JFrame();
-
         this.window.setTitle("Bicol Region Info Management System");
         
         this.window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -31,20 +34,14 @@ public class MainWindow {
         this.window.setSize(1000, 720);
         
         this.window.setLocationRelativeTo(null);
-
-        this.sideBar = new SideBar(getWindow());
         
-        this.dashboard = new Dashboard(getWindow());
-
-        this.manageData = new ManageData(getWindow());
-        
-        getWindow().add(getSideBar().getPanel(), BorderLayout.WEST);   
+        this.window.add(getSideBar().getPanel(), BorderLayout.WEST);   
         
         this.mainViewScrollPane = new JScrollPane(getDashboard().getPanel());
 
-        getMainViewScrollPane().getVerticalScrollBar().setUnitIncrement(16);
+        this.mainViewScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        getWindow().add(getMainViewScrollPane(), BorderLayout.CENTER);
+        this.window.add(getMainViewScrollPane(), BorderLayout.CENTER);
     }
 
     public void show() {

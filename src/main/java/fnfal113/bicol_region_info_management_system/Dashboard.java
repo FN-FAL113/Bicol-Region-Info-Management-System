@@ -25,7 +25,6 @@ import javax.swing.table.TableRowSorter;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
-import main.java.fnfal113.bicol_region_info_management_system.components.Card;
 import main.java.fnfal113.bicol_region_info_management_system.components.DrawableCard;
 import main.java.fnfal113.bicol_region_info_management_system.db.SQLRepository;
 import main.java.fnfal113.bicol_region_info_management_system.handlers.ButtonHandler;
@@ -63,9 +62,11 @@ public class Dashboard {
     }
 
     private JPanel createWidgets() {
-        GridLayout layout = new GridLayout(1, 4);
+        GridLayout layout = new GridLayout(1, 3);
 
         layout.setHgap(8);
+
+        layout.setVgap(8);
 
         JPanel widgetsPanel = new JPanel(layout);
 
@@ -74,7 +75,15 @@ public class Dashboard {
         for (JTable table : this.tables.values()) {
             String tableName = table.getClientProperty("name").toString();
 
-            widgetsPanel.add(new DrawableCard("<html><p style=\"font-weight: 400;\">" + tableName + "<br/>" + "<p style=\"margin-top: 8px;\">" + table.getRowCount() + "</p>" + "</html>", tableName, "#8596F4", 160, 80));
+            widgetsPanel.add(
+                new DrawableCard(
+                    "<html><p style=\"font-weight: 400;\">" + tableName + "<br/>" + "<p style=\"margin-top: 8px;\">" + table.getRowCount() + "</p>" + "</html>", 
+                    tableName, 
+                    "#8596F4", 
+                    160, 
+                    80
+                )
+            );
         }
 
         return widgetsPanel;
