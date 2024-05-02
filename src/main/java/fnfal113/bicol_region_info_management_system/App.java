@@ -3,6 +3,7 @@ package main.java.fnfal113.bicol_region_info_management_system;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.SwingUtilities;
@@ -19,8 +20,8 @@ public class App {
             @Override
             public void run() {
                 try {
-                    Font customFont = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets/Inter-Regular.ttf"));
-                    Font customFont2 = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets/Inter-Bold.ttf"));
+                    Font customFont = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets" + File.separator + "Inter-Regular.ttf"));
+                    Font customFont2 = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets" + File.separator  + "Inter-Bold.ttf"));
                     
                     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 

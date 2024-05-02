@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +51,7 @@ public class Form extends JPanel {
         super.paintComponent(g);
 
         try {
-            BufferedImage buffed = ImageIO.read(App.class.getResourceAsStream("assets/" + this.bgImageFileName + ".png"));
+            BufferedImage buffed = ImageIO.read(App.class.getResourceAsStream("assets" + File.separator + this.bgImageFileName + ".png"));
 
             g.drawImage(buffed, this.getSize().width - 154, this.getSize().height - 154, this);
         } catch (IOException e) {
@@ -67,7 +68,7 @@ public class Form extends JPanel {
 
         this.setMinimumSize(this.getPreferredSize());
         
-        this.setBackground(Color.decode("#8596F4"));
+        this.setBackground(Color.decode("#6874E8"));
 
         this.putClientProperty(FlatClientProperties.STYLE, "arc: 19");
 

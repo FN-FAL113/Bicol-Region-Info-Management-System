@@ -75,15 +75,11 @@ public class Dashboard {
         for (JTable table : this.tables.values()) {
             String tableName = table.getClientProperty("name").toString();
 
-            widgetsPanel.add(
-                new DrawableCard(
-                    "<html><p style=\"font-weight: 400;\">" + tableName + "<br/>" + "<p style=\"margin-top: 8px;\">" + table.getRowCount() + "</p>" + "</html>", 
-                    tableName, 
-                    "#8596F4", 
-                    160, 
-                    80
-                )
-            );
+            DrawableCard infoCard = new DrawableCard(tableName, "#6874E8", 64, 64, -56, 4);
+
+            infoCard.addLabel("<html><p style=\"font-weight: 400;\">" + tableName + "<br/>" + "<p style=\"margin-top: 8px;\">" + table.getRowCount() + "</p>" + "</html>", BorderLayout.CENTER);
+
+            widgetsPanel.add(infoCard);
         }
 
         return widgetsPanel;

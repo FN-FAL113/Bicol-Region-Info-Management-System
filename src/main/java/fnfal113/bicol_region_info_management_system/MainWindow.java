@@ -7,21 +7,24 @@ import javax.swing.JScrollPane;
 
 public class MainWindow {
 
-    private JFrame window;
+    private final JFrame window;
+    
+    private final SideBar sideBar;
+    
+    private final Dashboard dashboard;
+    
+    private final ManageData manageData;
+
+    private final About about;
     
     private JScrollPane mainViewScrollPane = new JScrollPane();
-    
-    private SideBar sideBar;
-    
-    private Dashboard dashboard;
-    
-    private ManageData manageData;
 
     public MainWindow() {
         this.window = new JFrame();
         this.sideBar = new SideBar(getWindow());
         this.dashboard = new Dashboard(getWindow());
         this.manageData = new ManageData(getWindow());
+        this.about = new About(getWindow());
 
         init();
     }
@@ -66,5 +69,9 @@ public class MainWindow {
 
     public ManageData getManageData() {
         return this.manageData;
+    }
+
+    public About getAbout() {
+        return this.about;
     }
 }

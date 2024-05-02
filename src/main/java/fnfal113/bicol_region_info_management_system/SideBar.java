@@ -63,6 +63,8 @@ public class SideBar {
         aboutBtn.setBorder(null);
         attachButtonIcon(aboutBtn, "about");
 
+        aboutBtn.addMouseListener(createButtonClickHandler(aboutBtn, "about"));
+
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.insets = new Insets(6, 0, 0, 0);
@@ -100,6 +102,8 @@ public class SideBar {
                     App.mainWindow().getMainViewScrollPane().setViewportView(App.mainWindow().getDashboard().getPanel());
                 } else if(panelName == "manage data") {
                     App.mainWindow().getMainViewScrollPane().setViewportView(App.mainWindow().getManageData().getPanel());
+                } else {
+                    App.mainWindow().getMainViewScrollPane().setViewportView(App.mainWindow().getAbout().getPanel());
                 }
             }
         };
