@@ -15,6 +15,11 @@ A java swing application for managing demographic-related data on some provinces
     - Delete by row ID function
 - About
     - JFrame for showing acknowledgements
+ 
+## Usage
+- MySQL Connection uses port ```**4306**```
+- Import "db_dump.sql" through command line or MySQL Workbench import feature
+- execute the jar file
 
 ## Special Mentions
 
