@@ -83,9 +83,9 @@ public class DrawableCard extends JPanel {
             Image img;
 
             if(this.width > 0 || this.height > 0) {
-                img = ImageIO.read(App.class.getResourceAsStream("assets" + File.separator + this.iconFileName + ".png")).getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
+                img = ImageIO.read(App.class.getResourceAsStream("assets/" + this.iconFileName + ".png")).getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
             } else {
-                img = ImageIO.read(App.class.getResourceAsStream("assets" + File.separator + this.iconFileName + ".png"));
+                img = ImageIO.read(App.class.getResourceAsStream("assets/" + this.iconFileName + ".png"));
             }
            
             g.drawImage(img, this.getSize().width + imageOffsetX, this.imageOffsetY, this);

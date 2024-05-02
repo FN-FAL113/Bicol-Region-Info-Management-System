@@ -20,8 +20,8 @@ public class App {
             @Override
             public void run() {
                 try {
-                    Font customFont = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets" + File.separator + "Inter-Regular.ttf"));
-                    Font customFont2 = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets" + File.separator  + "Inter-Bold.ttf"));
+                    Font customFont = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets/" + "Inter-Regular.ttf"));
+                    Font customFont2 = Font.createFont(Font.TRUETYPE_FONT, App.class.getResourceAsStream("assets/"  + "Inter-Bold.ttf"));
                     
                     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 

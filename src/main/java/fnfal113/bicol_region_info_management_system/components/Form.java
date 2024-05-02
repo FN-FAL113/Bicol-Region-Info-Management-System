@@ -51,7 +51,7 @@ public class Form extends JPanel {
         super.paintComponent(g);
 
         try {
-            BufferedImage buffed = ImageIO.read(App.class.getResourceAsStream("assets" + File.separator + this.bgImageFileName + ".png"));
+            BufferedImage buffed = ImageIO.read(App.class.getResourceAsStream("assets/" + this.bgImageFileName + ".png"));
 
             g.drawImage(buffed, this.getSize().width - 154, this.getSize().height - 154, this);
         } catch (IOException e) {
