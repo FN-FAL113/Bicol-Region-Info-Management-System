@@ -17,7 +17,7 @@ A java swing application for managing demographic-related data on some provinces
     - JFrame for showing acknowledgements
  
 ## Usage
-- MySQL Connection uses port ```**4306**```
+- MySQL Connection uses port ```4306```, can be edited through SQLDatabase.java 
 - Import "db_dump.sql" through command line or MySQL Workbench import feature
 - execute the jar file
 
