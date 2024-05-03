@@ -5,7 +5,7 @@ A java swing application for managing demographic-related data on some provinces
 <div align="center">
     <img src="https://github.com/FN-FAL113/Bicol-Region-Info-Management-System/assets/88238718/2d8cbac0-4548-465e-81a1-a48185e8bcc5" width="75%">
     <img src="https://github.com/FN-FAL113/Bicol-Region-Info-Management-System/assets/88238718/98351404-d9a3-4689-b09a-abce9aac8d30" width="75%">
-</dev>
+</div>
 
 ## Features
 
