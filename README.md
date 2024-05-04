@@ -13,7 +13,7 @@ A java swing application for managing demographic-related data on some provinces
     - tables with model filter
     - info cards
     - editable table cells that reflect changes to database
-    - municipality and Barangay locator (third-party website)
+    - municipality and barangay geo locator (third-party website)
 - Manage Data
     - form
     - add data function
